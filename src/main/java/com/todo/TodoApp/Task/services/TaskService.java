@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,9 +37,9 @@ public class TaskService {
   }
 
   @Transactional
-  public Task update(Integer id, UpdateTaskDto updateTaskDto) {
+  public Task update(Integer id, UpdateTaskDto updateTaskDto) throws BadRequestException {
     Task task = this.taskRepository.findById(id)
-        .orElseThrow(() -> new NotFoundException(
+        .orElseThrow(() -> new BadRequestException(
             "Task with id " + id + " does not exist"));
     String newContent = updateTaskDto.getContent();
     Boolean newIsCompleted = updateTaskDto.isCompleted();
@@ -51,10 +52,10 @@ public class TaskService {
     return task;
   }
 
-  public void deleteTask(Integer id) {
+  public void deleteTask(Integer id) throws BadRequestException {
     boolean exits = this.taskRepository.existsById(id);
     if (!exits) {
-        throw new NotFoundException("Task with id " + id + " does not exist");
+        throw new BadRequestException("Task with id " + id + " does not exist");
     }
     this.taskRepository.deleteById(id);
   }

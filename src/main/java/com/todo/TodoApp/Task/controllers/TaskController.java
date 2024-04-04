@@ -3,6 +3,7 @@ package com.todo.TodoApp.Task.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -62,7 +63,7 @@ public class TaskController {
 
   @PatchMapping(path = "{id}")
   public ResponseEntity<ResponseWithDataModel<Task>> update(@PathVariable("id") int id,
-      @Valid @RequestBody UpdateTaskDto updateTaskDto) {
+      @Valid @RequestBody UpdateTaskDto updateTaskDto) throws BadRequestException {
     Task updateTask = this.taskService.update(id, updateTaskDto);
     ResponseWithDataModel<Task> taskResponse = new ResponseWithDataModel<Task>(
         HttpStatus.CREATED.value(),
@@ -71,7 +72,7 @@ public class TaskController {
   }
 
   @DeleteMapping(path = "{id}")
-  public ResponseEntity<BaseResponseModel> deleteTask(@PathVariable("id") int id) {
+  public ResponseEntity<BaseResponseModel> deleteTask(@PathVariable("id") int id) throws BadRequestException {
     this.taskService.deleteTask(id);
     BaseResponseModel resposne = new BaseResponseModel(HttpStatus.OK.value(), "Delete task successfully");
     return new ResponseEntity<BaseResponseModel>(resposne, HttpStatus.OK);

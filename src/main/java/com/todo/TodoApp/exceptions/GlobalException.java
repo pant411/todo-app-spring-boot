@@ -3,6 +3,8 @@ package com.todo.TodoApp.exceptions;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.coyote.BadRequestException;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -10,7 +12,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
-import com.todo.TodoApp.exceptions.caseExceptions.NotFoundException;
+import com.todo.TodoApp.exceptions.caseExceptions.ForbiddenException;
+
 import com.todo.TodoApp.shared.response.models.ResponseWithErrorFieldValidate;
 import com.todo.TodoApp.shared.response.models.base.BaseResponseModel;
 
@@ -36,6 +39,24 @@ public class GlobalException {
         fieldErrors);
 
     return new ResponseEntity<ResponseWithErrorFieldValidate>(message, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(ForbiddenException.class)
+  public ResponseEntity<BaseResponseModel> forbiddenException(ForbiddenException ex, WebRequest request) {
+    BaseResponseModel message = new BaseResponseModel(
+        HttpStatus.FORBIDDEN.value(),
+        ex.getMessage());
+
+    return new ResponseEntity<BaseResponseModel>(message, HttpStatus.FORBIDDEN);
+  }
+
+  @ExceptionHandler(BadRequestException.class)
+  public ResponseEntity<BaseResponseModel> badRequestException(BadRequestException ex, WebRequest request) {
+    BaseResponseModel message = new BaseResponseModel(
+        HttpStatus.BAD_REQUEST.value(),
+        ex.getMessage());
+
+    return new ResponseEntity<BaseResponseModel>(message, HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(Exception.class)
