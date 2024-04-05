@@ -43,6 +43,12 @@ public class Task {
     this.isCompleted = isCompleted;
   }
 
+  public Task(Integer id, String content, boolean isCompleted) {
+    this.id = id;
+    this.content = content;
+    this.isCompleted = isCompleted;
+  }
+
   public Integer getId() {
     return id;
   }

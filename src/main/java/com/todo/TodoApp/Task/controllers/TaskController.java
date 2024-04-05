@@ -1,7 +1,6 @@
 package com.todo.TodoApp.Task.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import com.todo.TodoApp.Task.dtos.CreateTaskDto;
 import com.todo.TodoApp.Task.dtos.UpdateTaskDto;
 import com.todo.TodoApp.Task.entities.Task;
 import com.todo.TodoApp.Task.services.TaskService;
+import com.todo.TodoApp.exceptions.caseExceptions.NotFoundException;
 import com.todo.TodoApp.shared.response.models.ResponseWithDataModel;
 import com.todo.TodoApp.shared.response.models.base.BaseResponseModel;
 
@@ -53,12 +53,12 @@ public class TaskController {
   }
 
   @GetMapping(path = "{id}")
-  public ResponseEntity<ResponseWithDataModel<Optional<Task>>> getOneTask(@PathVariable("id") int id) {
-    Optional<Task> tasks = this.taskService.getOneTask(id);
-    ResponseWithDataModel<Optional<Task>> taskResponse = new ResponseWithDataModel<Optional<Task>>(
+  public ResponseEntity<ResponseWithDataModel<Task>> getOneTask(@PathVariable("id") int id) throws NotFoundException {
+    Task tasks = this.taskService.getOneTask(id);
+    ResponseWithDataModel<Task> taskResponse = new ResponseWithDataModel<Task>(
         HttpStatus.OK.value(),
         "Found Task", tasks);
-    return new ResponseEntity<ResponseWithDataModel<Optional<Task>>>(taskResponse, HttpStatus.OK);
+    return new ResponseEntity<ResponseWithDataModel<Task>>(taskResponse, HttpStatus.OK);
   }
 
   @PatchMapping(path = "{id}")
