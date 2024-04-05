@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.coyote.BadRequestException;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
 import com.todo.TodoApp.exceptions.caseExceptions.ForbiddenException;
-
+import com.todo.TodoApp.exceptions.caseExceptions.NotFoundException;
 import com.todo.TodoApp.shared.response.models.ResponseWithErrorFieldValidate;
 import com.todo.TodoApp.shared.response.models.base.BaseResponseModel;
 

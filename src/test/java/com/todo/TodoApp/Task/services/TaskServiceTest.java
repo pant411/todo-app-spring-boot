@@ -32,14 +32,11 @@ public class TaskServiceTest {
     // Mock the behavior of the repository to return the mock employee
     Mockito.when(taskRepository.findById(id)).thenReturn(Optional.of(mockTask));
     // Act
-    Task result = taskService.getOneTask(id);
+    Optional<Task> result = taskService.getOneTask(id);
     System.out.println("Test get one task!!!");
     System.out.println(result);
     // Assert
     assertNotNull(result);
-    assertEquals(id, result.getId());
-    assertEquals("Task 1", result.getContent());
-    assertEquals(false, result.isCompleted());
-
+    assertEquals(mockTask, result.get());
   }
 }

@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.todo.TodoApp.Task.entities.Task;
 
 @Repository
-public interface TaskRepository extends JpaRepository<Task, Integer>{} 
+public interface TaskRepository extends JpaRepository<Task, Integer>{
+  Task findOneTaskById(Integer id);
+} 

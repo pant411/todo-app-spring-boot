@@ -2,6 +2,7 @@ package com.todo.TodoApp.Task.services;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +28,12 @@ public class TaskService {
     return this.taskRepository.findAll();
   }
 
-  public Task getOneTask(Integer id) throws NotFoundException {
-    Task task = this.taskRepository.findById(id).orElseThrow(() -> new NotFoundException(
-        "Task with id " + id + " does not exist"));
-    ;
-
+  public Optional<Task> getOneTask(Integer id) {
+    Optional<Task> task = this.taskRepository.findById(id);
+    if (task.isEmpty()) {
+      throw new NotFoundException(
+        "Task with id " + id + " does not exist");
+    }
     return task;
   }
 
